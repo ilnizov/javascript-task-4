@@ -11,7 +11,7 @@ const isStar = true;
  * @returns {Object}
  */
 function getEmitter() {
-    let events = { };
+    let events = {};
 
     function allEvents(event) {
         let result = [event];
@@ -27,15 +27,14 @@ function getEmitter() {
     }
 
     function useHandlers(studentsList) {
-        for (let i = 0; i < studentsList.length; i++) {
-            let data = studentsList[i];
 
-            if (data.count < data.times &&
-                data.count % data.frequency === 0) {
-                data.handler.call(data.context);
+        studentsList.forEach(element => {
+            if (element.count < element.times &&
+                element.count % element.frequency === 0) {
+                element.handler.call(element.context);
             }
-            data.count++;
-        }
+            element.count++;
+        });
     }
 
     return {
@@ -87,12 +86,11 @@ function getEmitter() {
         emit: function (event) {
             let all = allEvents(event);
 
-            for (let i = 0; i < all.length; i++) {
-                let e = all[i];
-                if (events.hasOwnProperty(e)) {
-                    useHandlers(events[e]);
+            all.forEach(element => {
+                if (events.hasOwnProperty(element)) {
+                    useHandlers(events[element]);
                 }
-            }
+            });
 
             return this;
         },
